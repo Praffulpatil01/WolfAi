@@ -50,6 +50,7 @@ from utils.content_generator import generate_blog
 from utils.image_generator import get_placeholder_image
 from utils.wordpress_uploader import publish_post
 from utils.trending_topic import fetch_trending_topic  # trending topic fetcher
+import markdown
 
 
 def main():
@@ -58,13 +59,16 @@ def main():
   print("🎯 Topic:", topic)
 
   print("✍️ Generating content...")
-  blog_content = generate_blog(topic)
+  markdown_blog = generate_blog(topic)
+
+  print("🧾 Converting Markdown to HTML...")
+  html_blog = markdown.markdown(markdown_blog)
 
   #print("🖼️ Generating image...")
   #image_path = get_placeholder_image(topic)
 
   print("🚀 Publishing post to WordPress...")
-  success = publish_post(topic, blog_content)
+  success = publish_post(topic, html_blog)
 
   print(f"[{datetime.now()}] ✅ Blog published: {success}")
 

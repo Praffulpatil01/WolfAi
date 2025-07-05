@@ -1,7 +1,8 @@
 import requests
+import os
 
-ACCESS_TOKEN = "TLTId^AQZ7)XYBp*RsaaTd%TF0*VqtUOQn&0YSNzq%umk!2L77fHLsSQEC!kJNl3"
-SITE_ID = "246021646"
+ACCESS_TOKEN = os.getenv("WP_ACCESS_TOKEN")
+SITE_ID = os.getenv("WP_BLOG_ID")
 
 
 def publish_post(title, content):
@@ -10,6 +11,7 @@ def publish_post(title, content):
     post_data = {"title": title, "content": content, "status": "publish"}
     res = requests.post(url, headers=headers, data=post_data)
     print("✅ Published:", res.status_code == 201)
+    print("📝 HTML Content Preview:\n", content[:500], "...\n")
     print(res.json())
 
 

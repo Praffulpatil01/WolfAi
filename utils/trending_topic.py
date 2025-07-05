@@ -1,26 +1,27 @@
-#import requests
-#from bs4 import BeautifulSoup
-#import random
-
-#def fetch_trending_topic():
-# print("🔍 Fetching trending topics from
-
-from pytrends.request import TrendReq
+import feedparser
 import random
 
 
 def fetch_trending_topic():
-    print("🧠 Fetching trending topic with pytrends (real-time)...")
+    print("🧠 Fetching trending topic from Google News RSS (AI)...")
     try:
-        pytrends = TrendReq(hl='en-IN', tz=330)
-        df = pytrends.realtime_trending_searches(pn='IN')  # Works in 2025!
+        url = "https://news.google.com/rss/search?q=artificial+intelligence"
+        feed = feedparser.parse(url)
+        topics = [entry.title for entry in feed.entries]
 
-        topics = df['title'].tolist()
-        print(f"🗞️ Got {len(topics)} real-time topics")
+        if not topics:
+            raise ValueError("No topics found in RSS feed.")
+
+        print(f"🗞️ Got {len(topics)} AI-related news headlines")
 
     except Exception as e:
-        print("❌ pytrends fetch failed:", e)
-        topics = ["Top AI Tools 2025", "How GPT-5 Works", "Future of AI"]
+        print("❌ RSS fetch failed:", e)
+        topics = [
+            "Top AI Tools 2025", "How GPT-5 Works",
+            "Future of AI in Agriculture", "AI vs Human Creativity",
+            "Rise of Autonomous Drones", "Open Source LLMs"
+        ]
+        print("🛟 Using fallback static topics")
 
     ai_keywords = [
         "ai", "chatgpt", "openai", "gpt", "robot", "tech", "machine"
