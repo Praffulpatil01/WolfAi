@@ -41,8 +41,11 @@ import requests
 
 
 def generate_blog(topic):
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    if not api_key:
+        raise EnvironmentError("❌ OPENROUTER_API_KEY is missing from environment variables.")
     headers = {
-        "Authorization": f"Bearer {os.getenv('OPENROUTER_API_KEY')}",
+        "Authorization": f"Bearer {api_key}",
         "HTTP-Referer": "https://yourblog.com",
         "X-Title": "AI Blog Bot"
     }
