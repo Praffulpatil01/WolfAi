@@ -43,10 +43,13 @@ import requests
 def generate_blog(topic):
     api_key = os.getenv("OPENROUTER_API_KEY")
     if not api_key:
-        raise EnvironmentError("❌ OPENROUTER_API_KEY is missing from environment variables.")
+        raise EnvironmentError(
+            "❌ OPENROUTER_API_KEY is missing from environment variables.")
+    else:
+        print("✅ OPENROUTER_API_KEY is loaded.")
     headers = {
         "Authorization": f"Bearer {api_key}",
-        "HTTP-Referer": "https://yourblog.com",
+        "HTTP-Referer": "https://corebot24.wordpress.com/",
         "X-Title": "AI Blog Bot"
     }
     payload = {
@@ -62,7 +65,7 @@ def generate_blog(topic):
             "content": f"Write a 700‑word SEO blog post on: {topic}"
         }]
     }
-
+    print("🚀 Sending request to OpenRouter API...")
     res = requests.post("https://openrouter.ai/api/v1/chat/completions",
                         headers=headers,
                         json=payload)
